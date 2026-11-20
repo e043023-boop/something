@@ -3,10 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Basic HTML Page</title>
+    <title>Winter Break Countdown!</title>
+    <style>
+        body {
+            font-family: "Trebuchet MS", Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 1.5rem;
+            box-sizing: border-box;
+            color: #29443b;
+            background:
+                radial-gradient(circle at 15% 20%, #ffffffa8 0 2px, transparent 3px),
+                radial-gradient(circle at 80% 35%, #ffffff9c 0 2px, transparent 3px),
+                radial-gradient(circle at 35% 78%, #ffffffb0 0 3px, transparent 4px),
+                linear-gradient(145deg, #b9dce6, #e9f2ec 55%, #c5e0e5);
+            background-size: 130px 130px, 190px 190px, 230px 230px, auto;
+        }
+
+        main {
+            width: min(100%, 620px);
+            padding: clamp(2rem, 6vw, 3.5rem);
+            text-align: center;
+            box-sizing: border-box;
+            border: 2px solid #ffffff;
+            border-radius: 28px;
+            background: #fffdf6;
+            box-shadow: 0 18px 50px #31564b30;
+            position: relative;
+            overflow: hidden;
+        }
+
+        main::before,
+        main::after {
+            content: "✦";
+            position: absolute;
+            color: #d7a64b;
+            font-size: 1.5rem;
+        }
+
+        main::before {
+            top: 1.2rem;
+            left: 1.4rem;
+        }
+
+        main::after {
+            right: 1.4rem;
+            bottom: 1.2rem;
+        }
+
+        .decoration {
+            margin: 0;
+            font-size: 2rem;
+            letter-spacing: 0.4rem;
+        }
+
+        h1 {
+            margin: 0.7rem 0 0.4rem;
+            color: #a63e4b;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(2rem, 7vw, 3.2rem);
+        }
+
+        .subtitle {
+            margin: 0;
+            color: #547167;
+            font-size: 1.05rem;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin: 2rem 0 1.5rem;
+        }
+
+        .unit {
+            min-width: 95px;
+            padding: 1rem 0.8rem;
+            border: 1px solid #e8eee4;
+            border-radius: 18px;
+            background: #f0f6ee;
+            color: #547167;
+        }
+
+        .number {
+            display: block;
+            color: #315d4c;
+            font-size: 2.2rem;
+            font-weight: bold;
+            font-variant-numeric: tabular-nums;
+        }
+
+        #message {
+            margin: 0;
+            color: #a63e4b;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.15rem;
+        }
+
+        @media (max-width: 420px) {
+            .unit {
+                min-width: 72px;
+                padding: 0.8rem 0.55rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, world!</h1>
-    <p>This is a basic HTML page.</p>
+    <main>
+        <p class="decoration" aria-hidden="true">❄️ 🎄 ❄️</p>
+        <h1>Winter Break</h1>
+        <p class="subtitle">The coziest days are almost here!<br>December 18, 2026</p>
+        <div class="countdown" aria-live="polite">
+            <div class="unit"><span class="number" id="days">0</span>Days</div>
+            <div class="unit"><span class="number" id="hours">0</span>Hours</div>
+            <div class="unit"><span class="number" id="minutes">0</span>Minutes</div>
+            <div class="unit"><span class="number" id="seconds">0</span>Seconds</div>
+        </div>
+        <p id="message">✨ Let the holiday magic begin! ✨</p>
+    </main>
+    <script>
+        const breakDate = new Date(2026, 11, 18);
+        let timer;
+
+        function updateCountdown() {
+            const remaining = breakDate - new Date();
+
+            if (remaining <= 0) {
+                document.querySelector(".countdown").textContent = "Winter break is here!";
+                document.getElementById("message").textContent = "Enjoy your break!";
+                clearInterval(timer);
+                return;
+            }
+
+            const seconds = Math.floor(remaining / 1000);
+            document.getElementById("days").textContent = Math.floor(seconds / 86400);
+            document.getElementById("hours").textContent = Math.floor((seconds % 86400) / 3600);
+            document.getElementById("minutes").textContent = Math.floor((seconds % 3600) / 60);
+            document.getElementById("seconds").textContent = seconds % 60;
+        }
+
+        updateCountdown();
+        timer = setInterval(updateCountdown, 1000);
+    </script>
 </body>
 </html>
